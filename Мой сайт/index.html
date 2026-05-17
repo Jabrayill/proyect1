@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тёмный зал - Кинотеатр</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<!-- Шапка -->
+<header>
+<nav class="navbar">
+<div class="logo">
+<i class="fas fa-film"></i>
+<span>Тёмный зал</span>
+</div>
+<ul class="nav-links">
+<li><a href="#home" class="active">Главная</a></li>
+<li><a href="#schedule">Расписание</a></li>
+<li><a href="#booking">Бронирование</a></li>
+<li><a href="#about">О кинотеатре</a></li>
+</ul>
+<div class="burger">
+<div class="line1"></div>
+<div class="line2"></div>
+<div class="line3"></div>
+</div>
+</nav>
+</header>
+
+<!-- Главный раздел -->
+<main>
+<!-- Главная страница -->
+<section id="home" class="section active">
+<h1 class="section-title">Сейчас в кино</h1>
+<div class="movies-grid" id="movies-container">
+<!-- Фильмы будут загружены через JavaScript -->
+</div>
+</section>
+
+<!-- Расписание -->
+<section id="schedule" class="section">
+<h1 class="section-title">Расписание сеансов</h1>
+<div class="schedule-container">
+<div class="date-selector">
+<button class="date-btn active">Сегодня</button>
+<button class="date-btn">Завтра</button>
+<button class="date-btn">Послезавтра</button>
+</div>
+<div class="schedule-table" id="schedule-table">
+<!-- Расписание загружается через JS -->
+</div>
+</div>
+</section>
+
+<!-- Бронирование -->
+<section id="booking" class="section">
+<h1 class="section-title">Бронирование билетов</h1>
+<div class="booking-container">
+<div class="booking-form">
+<div class="form-group">
+<label for="movie-select">Выберите фильм:</label>
+<select id="movie-select">
+<!-- Фильмы загружаются через JS -->
+</select>
+</div>
+<div class="form-group">
+<label for="date-select">Дата сеанса:</label>
+<input type="date" id="date-select">
+</div>
+<div class="form-group">
+<label for="time-select">Время сеанса:</label>
+<select id="time-select">
+<option value="10:00">10:00</option>
+<option value="13:30">13:30</option>
+<option value="17:00">17:00</option>
+<option value="20:30">20:30</option>
+<option value="23:00">23:00</option>
+</select>
+</div>
+<div class="form-group">
+<label for="seat-select">Количество мест:</label>
+<input type="number" id="seat-select" min="1" max="10" value="1">
+</div>
+<button class="btn book-btn">Забронировать</button>
+</div>
+<div class="booking-info">
+<h3>Информация о бронировании</h3>
+<p>Вы можете забронировать билеты онлайн и оплатить их в кассе кинотеатра</p>
+<div class="price-info">
+<p>Стоимость билетов:</p>
+<ul>
+<li>Утренние сеансы (до 12:00) - 250 руб.</li>
+<li>Дневные сеансы (12:00-17:00) - 350 руб.</li>
+<li>Вечерние сеансы (после 17:00) - 450 руб.</li>
+<li>VIP зал - +150 руб. к базовой стоимости</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- О кинотеатре -->
+<section id="about" class="section">
+<h1 class="section-title">О кинотеатре "Тёмный зал"</h1>
+<div class="about-container">
+<div class="about-content">
+<h2>Добро пожаловать в лучший кинотеатр города!</h2>
+<p>Кинотеатр "Тёмный зал" был открыт в 2010 году и с тех пор стал любимым местом для всех поклонников кино. Мы предлагаем комфортные условия просмотра, современное оборудование и широкий выбор фильмов.</p>
+<h3>Наши преимущества:</h3>
+<ul class="advantages-list">
+<li><i class="fas fa-check"></i> Современные кинозалы с технологиями Dolby Atmos и IMAX</li>
+<li><i class="fas fa-check"></i> Удобные кресла с увеличенным шагом</li>
+<li><i class="fas fa-check"></i> Система онлайн-бронирования билетов</li>
+<li><i class="fas fa-check"></i> Бар с попкорном, напитками и закусками</li>
+<li><i class="fas fa-check"></i> Бесплатный Wi-Fi на всей территории</li>
+<li><i class="fas fa-check"></i> Парковка для посетителей</li>
+<li><i class="fas fa-check"></i> Залы для людей с ограниченными возможностями</li>
+<li><i class="fas fa-check"></i> Скидки для студентов и пенсионеров</li>
+</ul>
+<h3>Контакты:</h3>
+<div class="contact-info">
+<p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Кинотеатральная, 15</p>
+<p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+<p><i class="fas fa-envelope"></i> info@temnyzal.ru</p>
+<p><i class="fas fa-clock"></i> Ежедневно с 9:00 до 01:00</p>
+</div>
+</div>
+<div class="about-image">
+<img src="images/кинотеатр.webp" alt="Кинотеатр">
+</div>
+</div>
+</section>
+
+<!-- Модальное окно для подробностей фильма -->
+<div id="movie-modal" class="modal">
+<div class="modal-content">
+<span class="close-modal">&times;</span>
+<div id="modal-movie-details">
+<!-- Детали фильма загружаются через JS -->
+</div>
+</div>
+</div>
+</main>
+
+<!-- Подвал -->
+<footer>
+<div class="footer-content">
+<div class="footer-section">
+<h3>Тёмный зал</h3>
+<p>Лучший кинотеатр в городе</p>
+</div>
+<div class="footer-section">
+<h3>Быстрые ссылки</h3>
+<ul>
+<li><a href="#home">Главная</a></li>
+<li><a href="#schedule">Расписание</a></li>
+<li><a href="#booking">Бронирование</a></li>
+<li><a href="#about">О нас</a></li>
+</ul>
+</div>
+<div class="footer-section">
+<h3>Мы в соцсетях</h3>
+<div class="social-icons">
+<a href="#"><i class="fab fa-vk"></i></a>
+<a href="#"><i class="fab fa-telegram"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2025 Кинотеатр "Тёмный зал". Все права защищены.</p>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

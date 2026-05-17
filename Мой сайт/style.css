@@ -1,0 +1,529 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+background-color: #0f0f1a;
+color: #f0f0f0;
+line-height: 1.6;
+}
+
+/* Навигация */
+.navbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1.5rem 5%;
+background-color: rgba(15, 15, 26, 0.95);
+position: sticky;
+top: 0;
+z-index: 1000;
+box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+display: flex;
+align-items: center;
+font-size: 1.8rem;
+font-weight: bold;
+color: #e50914;
+}
+
+.logo i {
+margin-right: 10px;
+font-size: 2rem;
+}
+
+.nav-links {
+display: flex;
+list-style: none;
+}
+
+.nav-links li {
+margin-left: 2rem;
+}
+
+.nav-links a {
+color: #f0f0f0;
+text-decoration: none;
+font-size: 1.1rem;
+transition: color 0.3s;
+padding: 0.5rem 1rem;
+border-radius: 4px;
+}
+
+.nav-links a:hover, .nav-links a.active {
+color: #e50914;
+background-color: rgba(229, 9, 20, 0.1);
+}
+
+.burger {
+display: none;
+cursor: pointer;
+}
+
+.burger div {
+width: 25px;
+height: 3px;
+background-color: #f0f0f0;
+margin: 5px;
+transition: all 0.3s ease;
+}
+
+/* Основные секции */
+.section {
+display: none;
+padding: 3rem 5%;
+min-height: 80vh;
+}
+
+.section.active {
+display: block;
+animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+.section-title {
+text-align: center;
+margin-bottom: 2.5rem;
+color: #e50914;
+font-size: 2.5rem;
+position: relative;
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: -10px;
+left: 50%;
+transform: translateX(-50%);
+width: 100px;
+height: 3px;
+background-color: #e50914;
+}
+
+/* Сетка фильмов */
+.movies-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 2rem;
+margin-top: 2rem;
+}
+
+.movie-card {
+background: linear-gradient(145deg, #1a1a2e, #16213e);
+border-radius: 10px;
+overflow: hidden;
+transition: transform 0.3s, box-shadow 0.3s;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.movie-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.movie-poster {
+width: 100%;
+height: 400px;
+object-fit: cover;
+}
+
+.movie-info {
+padding: 1.5rem;
+}
+
+.movie-title {
+font-size: 1.3rem;
+margin-bottom: 0.8rem;
+color: #fff;
+}
+
+.movie-genre {
+color: #aaa;
+font-size: 0.9rem;
+margin-bottom: 1rem;
+}
+
+.btn {
+display: inline-block;
+padding: 0.8rem 1.5rem;
+background-color: #e50914;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-size: 1rem;
+font-weight: bold;
+transition: background-color 0.3s, transform 0.2s;
+text-decoration: none;
+text-align: center;
+margin: 0.3rem;
+}
+
+.btn:hover {
+background-color: #ff0a16;
+transform: scale(1.05);
+}
+
+.btn-secondary {
+background-color: #333;
+}
+
+.btn-secondary:hover {
+background-color: #444;
+}
+
+/* Расписание */
+.date-selector {
+display: flex;
+justify-content: center;
+gap: 1rem;
+margin-bottom: 2rem;
+}
+
+.date-btn {
+padding: 0.8rem 2rem;
+background-color: #1a1a2e;
+border: 2px solid #333;
+color: #f0f0f0;
+border-radius: 5px;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.date-btn.active, .date-btn:hover {
+background-color: #e50914;
+border-color: #e50914;
+}
+
+.schedule-table {
+background-color: #1a1a2e;
+border-radius: 10px;
+padding: 2rem;
+overflow-x: auto;
+}
+
+.schedule-item {
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr;
+align-items: center;
+padding: 1rem;
+border-bottom: 1px solid #333;
+}
+
+.schedule-item:last-child {
+border-bottom: none;
+}
+
+.schedule-header {
+font-weight: bold;
+background-color: #16213e;
+border-radius: 5px;
+}
+
+/* Бронирование */
+.booking-container {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 3rem;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.booking-form {
+background-color: #1a1a2e;
+padding: 2rem;
+border-radius: 10px;
+}
+
+.form-group {
+margin-bottom: 1.5rem;
+}
+
+.form-group label {
+display: block;
+margin-bottom: 0.5rem;
+color: #e50914;
+font-weight: bold;
+}
+
+.form-group select, .form-group input {
+width: 100%;
+padding: 0.8rem;
+background-color: #0f0f1a;
+border: 2px solid #333;
+border-radius: 5px;
+color: #f0f0f0;
+font-size: 1rem;
+}
+
+.form-group select:focus, .form-group input:focus {
+outline: none;
+border-color: #e50914;
+}
+
+.book-btn {
+width: 100%;
+margin-top: 1rem;
+padding: 1rem;
+font-size: 1.2rem;
+}
+
+.booking-info {
+background-color: #1a1a2e;
+padding: 2rem;
+border-radius: 10px;
+}
+
+.price-info ul {
+list-style: none;
+margin-top: 1rem;
+}
+
+.price-info li {
+padding: 0.5rem 0;
+border-bottom: 1px dashed #333;
+}
+
+/* О кинотеатре */
+.about-container {
+display: grid;
+grid-template-columns: 2fr 1fr;
+gap: 3rem;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.about-content h2 {
+color: #e50914;
+margin-bottom: 1rem;
+}
+
+.about-content h3 {
+color: #fff;
+margin: 1.5rem 0 1rem;
+}
+
+.advantages-list {
+list-style: none;
+margin: 1.5rem 0;
+}
+
+.advantages-list li {
+padding: 0.5rem 0;
+display: flex;
+align-items: center;
+}
+
+.advantages-list i {
+color: #e50914;
+margin-right: 10px;
+}
+
+.contact-info p {
+display: flex;
+align-items: center;
+margin-bottom: 0.8rem;
+}
+
+.contact-info i {
+color: #e50914;
+margin-right: 10px;
+width: 20px;
+}
+
+.about-image img {
+width: 180%;
+height: 50%;
+border-radius: 10px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Модальное окно */
+.modal {
+display: none;
+position: fixed;
+z-index: 1001;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+background-color: #1a1a2e;
+margin: 5% auto;
+padding: 2rem;
+border-radius: 10px;
+width: 80%;
+max-width: 800px;
+position: relative;
+max-height: 80vh;
+overflow-y: auto;
+}
+
+.close-modal {
+position: absolute;
+right: 1.5rem;
+top: 1rem;
+font-size: 2rem;
+color: #aaa;
+cursor: pointer;
+}
+
+.close-modal:hover {
+color: #fff;
+}
+
+.modal-movie-info {
+display: grid;
+grid-template-columns: 1fr 2fr;
+gap: 2rem;
+margin-top: 1rem;
+}
+
+.modal-poster {
+width: 100%;
+border-radius: 10px;
+}
+
+.modal-details h2 {
+color: #e50914;
+margin-bottom: 1rem;
+}
+
+.modal-details p {
+margin-bottom: 1rem;
+}
+
+/* Подвал */
+footer {
+background-color: #0a0a12;
+padding: 3rem 5% 1rem;
+margin-top: 3rem;
+}
+
+.footer-content {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 2rem;
+margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+color: #e50914;
+margin-bottom: 1rem;
+}
+
+.footer-section ul {
+list-style: none;
+}
+
+.footer-section ul li {
+margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+color: #aaa;
+text-decoration: none;
+transition: color 0.3s;
+}
+
+.footer-section a:hover {
+color: #e50914;
+}
+
+.social-icons {
+display: flex;
+gap: 1rem;
+}
+
+.social-icons a {
+display: inline-block;
+width: 40px;
+height: 40px;
+background-color: #333;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fff;
+font-size: 1.2rem;
+transition: background-color 0.3s;
+}
+
+.social-icons a:hover {
+background-color: #e50914;
+}
+
+.footer-bottom {
+text-align: center;
+padding-top: 2rem;
+border-top: 1px solid #333;
+color: #666;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+.booking-container, .about-container {
+grid-template-columns: 1fr;
+}
+.modal-movie-info {
+grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 768px) {
+.nav-links {
+position: fixed;
+right: -100%;
+top: 70px;
+flex-direction: column;
+background-color: #0f0f1a;
+width: 100%;
+text-align: center;
+transition: 0.3s;
+box-shadow: 0 10px 27px rgba(0, 0, 0, 0.5);
+padding: 2rem 0;
+}
+.nav-links.active {
+right: 0;
+}
+.nav-links li {
+margin: 1.5rem 0;
+}
+.burger {
+display: block;
+}
+.movies-grid {
+grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+.footer-content {
+grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 480px) {
+.section-title {
+font-size: 2rem;
+}
+.movies-grid {
+grid-template-columns: 1fr;
+}
+.date-selector {
+flex-direction: column;
+}
+.modal-content {
+width: 95%;
+padding: 1rem;
+}
+}

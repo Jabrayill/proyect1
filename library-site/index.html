@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Библиотека Книг — Онлайн Библиотека</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --accent: #e63946;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: purple;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            background-image: url(images/kosmos-svet-zvezd-planeta-fantasticheskii-art-prostranstvo-s.jpg);
+            height: 490px;
+            color: rgb(0, 255, 94);
+            text-align: center;
+            padding: 120px 20px 80px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .filters {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .filter-group h3 {
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+
+        .genre-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .genre-item {
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .genre-item:hover, .genre-item.active {
+            background: #e3f0ff;
+            color: var(--primary);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .book-cover {
+            height: 320px;
+            background: #ddd;
+            position: relative;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 1rem;
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .book-meta {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.6rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            width: 90%;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            max-height: 90vh;
+        }
+
+        .modal-left {
+            width: 40%;
+            background: #f8f9fa;
+        }
+
+        .modal-left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-right {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3a5a8a;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: #222;
+            color: #ddd;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">📚 Библиотека</a>
+            <div class="nav-links">
+                <a href="#">Главная</a>
+                <a href="#" onclick="showCategory('all')">Все книги</a>
+                <a href="#" onclick="showFavorites()">Избранное</a>
+                <a href="#">Мои книги</a>
+            </div>
+            
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Добро пожаловать в онлайн-библиотеку</h1>
+        <p style="font-size:1.3rem; max-width:600px; margin:0 auto 2rem;">Более 100 000 книг доступны для чтения и скачивания</p>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск по названию, автору или жанру..." onkeyup="filterBooks()">
+        </div>
+    </section>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2 style="margin-bottom:1.5rem; color:var(--primary);">Жанры</h2>
+            <div class="genre-list" id="genreList">
+                <!-- JS filled -->
+            </div>
+
+            <div style="margin-top:2rem;">
+                <h3>Сортировка</h3>
+                <select id="sortSelect" onchange="sortBooks()" style="width:100%; padding:10px; border-radius:8px;">
+                    <option value="title">По названию (А-Я)</option>
+                    <option value="year-desc">По году (новые)</option>
+                    <option value="year-asc">По году (старые)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h2 id="sectionTitle">Все книги (<span id="bookCount">100</span>)</h2>
+                <button onclick="clearFilters()" class="btn" style="background:#eee; color:#333;">Сбросить фильтры</button>
+            </div>
+
+            <div class="books-grid" id="booksGrid">
+                <!-- Books populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Modal -->
+    <div class="modal" id="bookModal">
+        <div class="modal-content" style="position:relative;">
+            <span class="modal-close" onclick="closeModal()">×</span>
+
+            <div class="modal-left" id="modalImage">
+                <!-- image -->
+            </div>
+
+            <div class="modal-right">
+                <h1 id="modalTitle" style="margin-bottom:0.5rem;"></h1>
+                <p id="modalAuthor" style="font-size:1.2rem; color:#555;"></p>
+                <p id="modalMeta" style="margin:1rem 0; color:#777;"></p>
+
+                <div style="margin:1.5rem 0;">
+                    <h3>Описание</h3>
+                    <p id="modalDesc" style="color:#444; line-height:1.7;"></p>
+                </div>
+
+                <div style="display:flex; gap:15px; margin-top:2rem;">
+                    <button onclick="borrowBook()" class="btn btn-primary">Взять книгу</button>
+                    <button onclick="addToFavorites()" class="btn" style="background:#f0f0f0; color:#333;">❤️ В избранное</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Онлайн Библиотека — Дипломная работа</p>
+        <p>Создано для демонстрации HTML, CSS и JavaScript</p>
+    </footer>
+
+    <script>
+        // Массив книг (100 шт.)
+        let books = [
+            {id:1, title:"1984", author:"Джордж Оруэлл", genre:"Антиутопия", year:1949, cover: "https://avatars.mds.yandex.net/get-entity_search/2038203/478092060/S600xU_2x", desc:"Классическая антиутопия о тоталитарном обществе."},
+            {id:2, title:"Гарри Поттер и Философский камень", author:"Дж. К. Роулинг", genre:"Фэнтези", year:1997, cover:"https://upload.wikimedia.org/wikipedia/ru/d/d2/Обложка_первого_издания_романа_Гарри_Поттер_и_философский_камень.jpg?utm_source=ru.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled", desc:"Первая книга о мальчике-колдуне."},
+            {id:3, title:"Убить пересмешника", author:"Харпер Ли", genre:"Классика", year:1960, cover:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/To_Kill_a_Mockingbird_%28first_edition_cover%29.jpg/960px-To_Kill_a_Mockingbird_%28first_edition_cover%29.jpg?utm_source=ru.wikipedia.org&utm_campaign=parser&utm_content=thumbnail", desc:"История о расизме и справедливости."}, 
+            {id:4, title:"Властелин колец: Братство кольца", author:"Дж. Р. Р. Толкин", genre:"Фэнтези", year:1954, cover:"https://upload.wikimedia.org/wikipedia/ru/9/91/Братство_кольца.gif?utm_source=ru.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled", desc:"Эпическая сага о Средиземье."},
+            {id:5, title:"Гордость и предубеждение", author:"Джейн Остин", genre:"Романтика", year:1813, cover:"https://avatars.mds.yandex.net/get-entity_search/2079849/6QAEStjuXSPa/S600xU_2x", desc:"Классика английской литературы"},
+            {id:6, title:"Приключения Тома Сойера", author:"Марк Твен", genre: "Приключения", year:1876, cover:"https://avatars.mds.yandex.net/get-entity_search/2371583/q63d4jOJ7CBj/S600xU_2x", desc:"Увлекательная история о мальчике Томе Сойере, живущего на небольшом городке на берегу Миссисипи."},
+            {id:7, title:"Мастер и Маргарита", author:"Михаилт Булгаков", genre: "Классика", year:1967, cover:"https://avatars.mds.yandex.net/get-entity_search/1922058/xcp19tTk2Exh/S600xU_2x", desc:"История о дьяволе, посетившем Москву, переплетается с судьбой и его возлюбленной."},
+            {id:8, title: "Преступление и наказание", author: "Фёдор Достоевский",
+genre: "Классика",
+year: 1866,
+cover: "https://avatars.mds.yandex.net/get-entity_search/2050844/2g0NE8FE18jU/S600xU_2x",
+description: "Психологическая драма студента, совершившего преступление и пытающегося оправдать себя."
+},
+{ id: 9,
+title: "Дюна",
+author: "Фрэнк Герберт",
+genre: "Научная фантастика",
+year: 1965,
+cover: "https://upload.wikimedia.org/wikipedia/ru/5/5a/FrankHerbert_Dune_1st.jpg?utm_source=ru.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+description: "Эпическая история борьбы за контроль над пустынной планетой Арракис."
+},
+{ id: 10,
+title: "Оно",
+author: "Стивен Кинг",
+genre: "Ужасы",
+year: 1986,
+cover: "https://avatars.mds.yandex.net/get-entity_search/2321801/tZbKd71A6tUV/S600xU_2x",
+description: "Группа детей сталкивается с древним злом, принимающим форму клоуна."
+},
+{
+title: "Шерлок Холмс: Этюд в багровых тонах",
+author: "Артур Конан Дойл",
+genre: "Детектив",
+year: 1887,
+cover: "https://avatars.mds.yandex.net/get-entity_search/1327047/336055022/S600xU_2x",
+description: "Первое расследование легендарного сыщика Шерлока Холмса."
+},
+{
+title: "451 градус по Фаренгейту",
+author: "Рэй Брэдбери",
+genre: "Антиутопия",
+year: 1953,
+cover: "https://avatars.mds.yandex.net/get-entity_search/2371583/eNOv37C11R1u/S600xU_2x",
+description: "Мир, где книги запрещены и сжигаются."
+},
+{
+title: "Алхимик",
+author: "Пауло Коэльо",
+genre: "Философия",
+year: 1988,
+cover: "https://avatars.mds.yandex.net/i?id=2537963eaf8da71e0bc4fe1ec9606012_l-12421110-images-thumbs&n=13",
+description: "Притча о поиске своего предназначения."
+},
+{
+title: "Игры престолов",
+author: "Джордж Мартин",
+genre: "Фэнтези",
+year: 1996,
+cover: "https://avatars.mds.yandex.net/get-mpic/14098623/2a00000197e57dee815d5b1303ee71228616/orig",
+description: "Борьба за власть в вымышленном мире Вестерос."
+},
+{
+title: "Метро 2033",
+author: "Дмитрий Глуховский",
+genre: "Постапокалипсис",
+year: 2005,
+cover: "https://avatars.mds.yandex.net/get-entity_search/516403/336202439/S600xU_2x",
+description: "Жизнь людей в московском метро после ядерной войны."
+},
+{
+title: "Три товарища",
+author: "Эрих Мария Ремарк",
+genre: "Драма",
+year: 1936,
+cover: "https://avatars.mds.yandex.net/get-mpic/11397617/2a0000018f57417d83ff46a5587830d930c0/orig",
+description: "История дружбы и любви на фоне послевоенной Германии."
+},
+{
+title: "Хоббит или Туда и обратно",
+author: "Дж. Р. Р. Толкин",
+genre: "Фэнтези",
+year: 1937,
+cover: "https://ir.ozone.ru/s3/multimedia-b/6466496075.jpg",
+description: "Приключения Бильбо Бэггинса и путешествие к сокровищам."
+},
+{
+title: "Голодные игры",
+author: "Сьюзен Коллинз",
+genre: "Антиутопия",
+year: 2008,
+cover: "https://avatars.mds.yandex.net/get-marketpic/5888040/pic9231d06b30288594124e88179d978f12/orig",
+description: "Девушка участвует в смертельном шоу ради выживания."
+},
+{
+title: "Код да Винчи",
+author: "Дэн Браун",
+genre: "Триллер",
+year: 2003,
+cover: "https://avatars.mds.yandex.net/get-mpic/14036716/2a000001973caf7ff47abb979b904235f69b/orig",
+description: "Загадки, тайные общества и поиски истины."
+},
+{
+title: "Война миров",
+author: "Герберт Уэллс",
+genre: "Научная фантастика",
+year: 1898,
+cover: "https://avatars.mds.yandex.net/get-mpic/16482699/2a00000196e8ada8c9d05f8923d7cbd75b9c/orig",
+description: "Нашествие марсиан на Землю."
+},
+{
+title: "Американские боги",
+author: "Нил Гейман",
+genre: "Фэнтези",
+year: 2001,
+cover: "https://ndc.book24.ru/resize/820x1180/pim/products/images/ef/68/0193aad3-2e7d-7217-ab30-aa881429ef68.jpg",
+description: "Старые боги сталкиваются с новыми в современном мире."
+},
+{
+title: "Над пропастью во ржи",
+author: "Джером Сэлинджер",
+genre: "Классика",
+year: 1951,
+cover: "https://avatars.mds.yandex.net/get-marketpic/11926430/pic9dd8cc94e5c97f64bf10729df804a708/orig",
+description: "История подростка, ищущего своё место в мире."
+},
+{
+title: "Парфюмер",
+author: "Патрик Зюскинд",
+genre: "Драма",
+year: 1985,
+cover: "https://avatars.mds.yandex.net/get-mpic/11910286/2a00000195d6b69b076b740e237abee9f70f/orig",
+description: "История человека с уникальным обонянием."
+},
+{
+title: "Маленький принц",
+author: "Антуан де Сент-Экзюпери",
+genre: "Сказка",
+year: 1943,
+cover: "https://avatars.mds.yandex.net/get-mpic/17657724/2a0000019bfa9aecce9e77b33c5c9779eec6/orig",
+description: "Философская сказка о жизни и любви."
+},
+{
+title: "Доктор Живаго",
+author: "Борис Пастернак",
+genre: "Роман",
+year: 1957,
+cover: "https://avatars.mds.yandex.net/get-mpic/17873630/2a0000019934439499ba950bc6253fd09846/orig",
+description: "История жизни врача на фоне революции."
+},
+{
+title: "Сияние",
+author: "Стивен Кинг",
+genre: "Ужасы",
+year: 1977,
+cover: "https://avatars.mds.yandex.net/i?id=7b3161351b98f880bd730fa839c86ba5_l-4475612-images-thumbs&n=13",
+description: "Семья оказывается в зловещем отеле."
+},
+{
+title: "Анна Каренина",
+author: "Лев Толстой",
+genre: "Роман",
+year: 1877,
+cover: "https://avatars.mds.yandex.net/get-mpic/15426853/2a0000019938963e1cec2ed61202896bf7bb/orig",
+description: "Трагическая история любви и общества."
+},
+
+{
+title: "Марсианин",
+author: "Энди Вейер",
+genre: "Научная фантастика",
+year: 2011,
+cover: "https://ir.ozone.ru/s3/multimedia-1-y/8450969434.jpg",
+description: "Астронавт пытается выжить на Марсе."
+},
+{
+title: "Тень ветра",
+author: "Карлос Руис Сафон",
+genre: "Драма",
+year: 2001,
+cover: "https://i3.mybook.io/c/560x/book_covers/62/89/62891a9c-d68c-4817-ae2a-40f7092f37c9.jpg",
+description: "Тайна книги, меняющей судьбы."
+},
+{
+title: "Бойцовский клуб",
+author: "Чак Паланик",
+genre: "Психология",
+year: 1996,
+cover: "https://www.auchan.ru/f/c/insecure/w:620/plain/https://www.auchan.ru/files/original/781321/",
+desc: "История о бунте против общества потребления."
+},
+{
+title: "Старик и море",
+author: "Эрнест Хемингуэй",
+genre: "Классика",
+year: 1952,
+cover: "https://ir.ozone.ru/s3/multimedia-1-g/7547506756.jpg",
+description: "История старого рыбака и его борьбы с огромной рыбой."
+},
+{
+title: "О дивный новый мир",
+author: "Олдос Хаксли",
+genre: "Антиутопия",
+year: 1932,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/12554399/2a0000018d46bc273670a7488f3b3d6574ac/orig",
+
+description: "Будущее общество, где всё контролируется и регулируется."
+},
+{
+title: "Три мушкетёра",
+author: "Александр Дюма",
+genre: "Приключения",
+year: 1844,
+
+cover: "https://static2.my-shop.ru/products490/4890605/cover.jpg",
+
+description: "Приключения д’Артаньяна и его друзей-мушкетёров."
+},
+{
+title: "Граф Монте-Кристо",
+author: "Александр Дюма",
+genre: "Приключения",
+year: 1844,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/4580925/2a000001923231042985bbddaae1ec598b88/orig",
+
+description: "История мести и справедливости."
+},
+{
+title: "Остров сокровищ",
+author: "Роберт Льюис Стивенсон",
+genre: "Приключения",
+year: 1883,
+
+cover: "https://basket-18.wbbasket.ru/vol2859/part285944/285944988/images/big/1.webp",
+
+description: "Поиски пиратского клада и морские приключения."
+},
+{
+title: "Дракула",
+author: "Брэм Стокер",
+genre: "Ужасы",
+year: 1897,
+
+cover: "https://avatars.mds.yandex.net/i?id=649972b8f3d77140b2281da41320add7_l-4820816-images-thumbs&n=13",
+
+description: "Классическая история о вампире графе Дракуле."
+},
+{
+title: "Франкенштейн",
+author: "Мэри Шелли",
+genre: "Ужасы",
+year: 1818,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/16464876/2a0000019a2ff3b274d4ec040912c322012d/orig",
+
+description: "Учёный создаёт живое существо из мёртвых тел."
+},
+{
+title: "Кэрри",
+author: "Стивен Кинг",
+genre: "Ужасы",
+year: 1974,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/18041007/2a0000019c478f6c897475baee21803a8206/orig",
+
+description: "Девушка с телепатическими способностями."
+},
+{
+title: "Зелёная миля",
+author: "Стивен Кинг",
+genre: "Драма",
+year: 1996,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/1729672/2a000001948e540a7d728649bd7c53f00232/orig",
+
+description: "История охранника тюрьмы и необычного заключённого."
+},
+{
+title: "Виноваты звёзды",
+author: "Джон Грин",
+genre: "Романтика",
+year: 2012,
+
+cover: "https://ndc.book24.ru/resize/820x1180/pim/products/images/d3/ec/0193abe0-f366-762d-82ab-efec657dd3ec.jpg",
+
+description: "Трогательная история любви двух подростков."
+},
+{
+title: "До встречи с тобой",
+author: "Джоджо Мойес",
+genre: "Романтика",
+year: 2012,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/12288829/2a000001920bed07c2b5adb9bf4f2c01f4ed/orig",
+
+description: "История отношений, меняющих жизнь."
+},
+{
+title: "Гарри Поттер и Тайная комната",
+author: "Дж. К. Роулинг",
+genre: "Фэнтези",
+year: 1998,
+
+cover: "https://avatars.mds.yandex.net/i?id=76aa212521745a7674839ac9a98d7ca6_l-4902040-images-thumbs&n=13",
+
+description: "Второй год обучения Гарри в Хогвартсе."
+},
+{
+title: "Гарри Поттер и узник Азкабана",
+author: "Дж. К. Роулинг",
+genre: "Фэнтези",
+year: 1999,
+
+cover: "https://static.onlinetrade.ru/img/users_images/260407/b/kniga_garri_potter_i_uznik_azkabana_rouling_dzhoan_ketlin_1569071710_1.jpg",
+
+description: "Побег опасного преступника из тюрьмы Азкабан."
+},
+{
+title: "Гарри Поттер и Кубок огня",
+author: "Дж. К. Роулинг",
+genre: "Фэнтези",
+year: 2000,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/17759237/2a0000019ca9c8cd98c40ddcd03413a3a310/orig",
+
+description: "Опасный турнир трёх волшебников."
+},
+{
+title: "Гарри Поттер и Орден Феникса",
+author: "Дж. К. Роулинг",
+genre: "Фэнтези",
+year: 2003,
+
+cover: "https://www.podpisnie.ru/upload/resize_images/92820015/classic_1024x537_92820015.jpeg",
+
+description: "Борьба с возвращением тёмного лорда."
+},
+{
+title: "Гарри Поттер и Принц-полукровка",
+author: "Дж. К. Роулинг",
+genre: "Фэнтези",
+year: 2005,
+
+cover: "https://main-cdn.sbermegamarket.ru/big1/hlr-system/982/605/738/104/121/2/100071199279b0.jpg",
+
+description: "Раскрытие тайн прошлого Волан-де-Морта."
+},
+{
+title: "Гарри Поттер и Дары Смерти",
+author: "Дж. К. Роулинг",
+genre: "Фэнтези",
+year: 2007,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/9067823/2a0000019105b4f7d3891efad44e62f6c898/orig",
+
+description: "Финальная битва добра и зла."
+},
+{
+title: "Хроники Нарнии: Лев, колдунья и платяной шкаф",
+author: "К. С. Льюис",
+genre: "Фэнтези",
+year: 1950,
+
+cover: "https://avatars.mds.yandex.net/i?id=887e741ef603cd6b18880bf11983b1c8_l-10836596-images-thumbs&n=13",
+
+description: "Путешествие детей в волшебный мир Нарнии."
+},
+{
+title: "Перси Джексон и похититель молний",
+author: "Рик Риордан",
+genre: "Фэнтези",
+year: 2005,
+
+cover: "https://ir.ozone.ru/s3/multimedia-1-0/7932399408.jpg",
+
+description: "Мальчик узнаёт, что он сын греческого бога."
+},
+{
+title: "Инферно",
+author: "Дэн Браун",
+genre: "Триллер",
+year: 2013,
+
+cover: "https://ndc.book24.ru/resize/820x1180/pim/products/images/42/84/0199e976-816b-7121-acc6-978e57b44284.jpg",
+
+description: "Новая загадка профессора Лэнгдона."
+},
+{
+title: "Ангелы и демоны",
+author: "Дэн Браун",
+genre: "Триллер",
+year: 2000,
+
+cover: "https://ndc.book24.ru/resize/820x1180/pim/products/images/25/52/0193ab41-e1ff-7d12-9e51-acc04de62552.jpg",
+
+description: "Тайное общество и угроза Ватикану."
+},
+{
+title: "Тёмная башня: Стрелок",
+author: "Стивен Кинг",
+genre: "Фэнтези",
+year: 1982,
+
+cover: "https://imo02.my-shop.ru/products489/4884425/cover.jpg/500-0",
+
+description: "Начало эпической серии о стрелке."
+},
+{
+title: "Шантарам",
+author: "Грегори Дэвид Робертс",
+genre: "Драма",
+year: 2003,
+
+cover: "https://main-cdn.sbermegamarket.ru/big1/hlr-system/ccs/110050/MTAwNzE2OTBfMTU0NzE2MDM0/b0.jpg",
+
+description: "История беглого преступника в Индии."
+},
+{
+title: "Атлант расправил плечи",
+author: "Айн Рэнд",
+genre: "Философия",
+year: 1957,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/5233736/2a0000018f1431f03fd512136ea825d22c55/orig",
+
+description: "История о свободе личности и обществе."
+},
+{
+title: "Мы",
+author: "Евгений Замятин",
+genre: "Антиутопия",
+year: 1924,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/12597455/2a00000194601e47708af9536752f70a8f1f/orig",
+
+description: "Один из первых антиутопических романов."
+},
+{
+title: "Солярис",
+author: "Станислав Лем",
+genre: "Научная фантастика",
+year: 1961,
+
+cover: "https://imo10.labirint.ru/books/578929/cover.jpg/484-0",
+
+description: "Контакт человека с неизвестным разумом."
+},
+{
+title: "Пикник на обочине",
+author: "Стругацкие",
+genre: "Научная фантастика",
+year: 1972,
+
+cover: "https://ir.ozone.ru/s3/multimedia-1-v/8432735467.jpg",
+
+description: "Зона с аномалиями после визита пришельцев."
+},
+{
+title: "Обломов",
+author: "Иван Гончаров",
+genre: "Классика",
+year: 1859,
+
+cover: "https://cdn.litres.ru/pub/c/cover_415/24306701.webp",
+
+description: "История ленивого дворянина."
+},
+{
+title: "Отцы и дети",
+author: "Иван Тургенев",
+genre: "Классика",
+year: 1862,
+
+cover: "https://avatars.mds.yandex.net/get-mpic/16661583/2a0000019b15c414e425abd329f8fbc16146/orig",
+
+description: "Конфликт поколений и идей."
+},
+{
+title: "Евгений Онегин",
+author: "Александр Пушкин",
+genre: "Классика",
+year: 1833,
+
+cover: "https://amital.ru/image/data/import_files/5d/5d225c0d-4b0f-11ef-899f-9cb654acd3b6.jpeg",
+
+description: "Роман в стихах о любви и судьбе."
+},
+{
+title: "Ревизор",
+author: "Николай Гоголь",
+genre: "Комедия",
+year: 1836,
+cover: "https://avatars.mds.yandex.net/get-mpic/14353726/2a000001963fd373d6ff727023035d111aa6/orig",
+
+description: "Сатира на чиновников и коррупцию."
+}
+        ];
+
+        // Генерация остальных 95 книг
+        const genres = ["Фэнтези", "Научная фантастика", "Детектив", "Романтика", "История", "Ужасы", "Классика", "Антиутопия", "Приключения", "Биография"];
+        const authorsList = ["Стивен Кинг", "Агата Кристи", "Исаак Азимов", "Лев Толстой", "Фёдор Достоевский", "Эрнест Хемингуэй", "Марк Твен", "Чарльз Диккенс"];
+
+        let currentFilter = 'all';
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        function renderGenres() {
+            const genreSet = new Set(books.map(b => b.genre));
+            let html = `<div class="genre-item active" onclick="filterByGenre('all')">Все жанры</div>`;
+
+            genreSet.forEach(genre => {
+                html += `<div class="genre-item" onclick="filterByGenre('${genre}')">${genre}</div>`;
+            });
+
+            document.getElementById('genreList').innerHTML = html;
+        }
+
+        function renderBooks(filteredBooks) {
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = '';
+
+            filteredBooks.forEach(book => {
+                const isFav = favorites.includes(book.id);
+                const card = document.createElement('div');
+                card.className = 'book-card';
+                card.innerHTML = `
+                    <div class="book-cover">
+                        <img src="${book.cover}" alt="${book.title}">
+                    </div>
+                    <div class="book-info">
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">${book.author}</div>
+                        <div class="book-meta">${book.genre} • ${book.year}</div>
+                    </div>
+                `;
+                card.onclick = () => showBookModal(book);
+                grid.appendChild(card);
+            });
+
+            document.getElementById('bookCount').textContent = filteredBooks.length;
+        }
+
+        function filterBooks() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            let filtered = books.filter(book =>
+                book.title.toLowerCase().includes(searchTerm) ||
+                book.author.toLowerCase().includes(searchTerm) ||
+                book.genre.toLowerCase().includes(searchTerm)
+            );
+
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(b => b.genre === currentFilter);
+            }
+
+            renderBooks(filtered);
+        }
+
+        function filterByGenre(genre) {
+            currentFilter = genre;
+
+            // Обновляем активный жанр
+            document.querySelectorAll('.genre-item').forEach(item => {
+                item.classList.toggle('active',
+                    (genre === 'all' && item.textContent === 'Все жанры') ||
+                    item.textContent === genre);
+            });
+
+            filterBooks();
+        }
+
+        function sortBooks() {
+            const sortValue = document.getElementById('sortSelect').value;
+            let sorted = [...books];
+
+            if (sortValue === 'title') {
+                sorted.sort((a, b) => a.title.localeCompare(b.title));
+            } else if (sortValue === 'year-desc') {
+                sorted.sort((a, b) => b.year - a.year);
+            } else if (sortValue === 'year-asc') {
+                sorted.sort((a, b) => a.year - b.year);
+            }
+
+            renderBooks(sorted);
+        }
+
+        let currentBook = null;
+
+        function showBookModal(book) {
+            currentBook = book;
+            document.getElementById('modalImage').innerHTML = `<img src="${book.cover}" alt="${book.title}">`;
+            document.getElementById('modalTitle').textContent = book.title;
+            document.getElementById('modalAuthor').textContent = book.author;
+            document.getElementById('modalMeta').innerHTML = `${book.genre} • ${book.year} год`;
+            document.getElementById('modalDesc').textContent = book.desc || "Подробное описание книги будет доступно в полной версии проекта.";
+            document.getElementById('bookModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('bookModal').style.display = 'none';
+        }
+
+        function borrowBook() {
+            alert(`Книга "${currentBook.title}" успешно взята! Срок возврата: 14 дней.`);
+            closeModal();
+        }
+
+        function addToFavorites() {
+            if (!favorites.includes(currentBook.id)) {
+                favorites.push(currentBook.id);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                alert('Добавлено в избранное ❤️');
+            } else {
+                alert('Уже в избранном!');
+            }
+        }
+
+        function showFavorites() {
+            const favBooks = books.filter(b => favorites.includes(b.id));
+            document.getElementById('sectionTitle').textContent = `Избранное (${favBooks.length})`;
+            renderBooks(favBooks);
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            currentFilter = 'all';
+            renderGenres();
+            renderBooks(books);
+            document.getElementById('sectionTitle').textContent = `Все книги (${books.length})`;
+        }
+
+        function showCategory(cat) {
+            if (cat === 'all') {
+                clearFilters();
+            }
+        }
+
+        // Инициализация
+        window.onload = function() {
+            renderGenres();
+            renderBooks(books);
+
+            // Закрытие модального окна по клику вне его
+            const modal = document.getElementById('bookModal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            console.log('%c✅ Проект "Онлайн Библиотека" успешно загружен! 100 книг добавлено.', 'color: #4a6fa5; font-size: 16px;');
+        };
+    </script>
+</body>
+</html>
